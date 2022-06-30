@@ -14,9 +14,9 @@ import { useWalletConnect } from "../../WalletConnect";
 
 const color = "#315399";
 
-function Transfer() {
+function Transfer(props) {
   const [receiver, setReceiver] = useState();
-  const [token, setToken] = useState();
+  const [token, setToken] = useState(props.token);
   const [tx, setTx] = useState();
   const [amount, setAmount] = useState();
   const [isPending, setIsPending] = useState(false);
@@ -27,9 +27,11 @@ function Transfer() {
   const { fetch, error, isFetching } = useWeb3Transfer(transferOptionsState);
 
   const { Moralis } = useMoralis();
+
   const tokenDecimals = token ? token.decimals : "18";
   const tokenAddress = token ? token.token_address : "";
 
+  console.log("[Transfer] props: ", props);
   useEffect(() => {
     if (token && amount && receiver)
       setTransferOptionsState({

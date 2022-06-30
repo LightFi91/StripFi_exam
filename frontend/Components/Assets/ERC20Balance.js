@@ -52,13 +52,15 @@ const DefaultLogoBasedOnChain = ({ chain }) => {
 
 const Item = ({ name, logo, balance, symbol, price, tokenAddress, chain }) => {
   const priceOptions = { chain: chain, address: tokenAddress };
-
+  console.log("[ND][Item] options: ", priceOptions);
   const { tokenPrice } = useTokenPrice(priceOptions);
   const [isUSDMode, setIsUSDMode] = useState(true);
+  console.log("[ND][Item] tokenPrice (%s): %s", symbol, tokenPrice);
   const toggleDisplayStyle = () => setIsUSDMode(!isUSDMode);
   const tokenPriceFormatted =
     tokenPrice && (isUSDMode ? tokenPrice.usdPrice : tokenPrice.nativePrice);
   const balanceFormatted = Math.round(balance * 100) / 100;
+  console.log("[ND][Item] balance: ", balanceFormatted);
   const tokenPriceInNumber = tokenPriceFormatted
     ? parseFloat(tokenPriceFormatted.substring(1).replace(/,/g, "")).toFixed(5)
     : 0;
@@ -100,7 +102,7 @@ const Item = ({ name, logo, balance, symbol, price, tokenAddress, chain }) => {
 function ERC20Balance(props) {
   const { assets } = useERC20Balance(props);
   const { Moralis } = useMoralis();
-
+  
   const renderItem = ({ item }) => {
     return (
       <Pressable onPress={() => (props.setToken ? props.setToken(item) : null)}>

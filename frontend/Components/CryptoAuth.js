@@ -90,25 +90,8 @@ const LoginScreen = ({ navigation }) => {
             justifyContent: "center",
             alignContent: "center",
           }}>
-          <Image
-            style={{ flex: 1, maxWidth: '100%', alignSelf: 'center' }}
-            source={require("../eth.png")}
-          />
           <View style={{ flex: 1 }}>
             <KeyboardAvoidingView enabled>
-              <View style={{ alignItems: "center" }}>
-                <LottieView source={Animation} loop autoPlay />
-                <Image
-                  source={require("../moralis-logo.png")}
-                  style={{
-                    width: "50%",
-                    height: 100,
-                    resizeMode: "contain",
-                    margin: 30,
-                  }}
-                />
-              </View>
-
               <View>
                 {authError && (
                   <Portal>

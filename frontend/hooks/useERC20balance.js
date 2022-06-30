@@ -4,9 +4,21 @@ import { useMoralisDapp } from "../providers/MoralisDappProvider/MoralisDappProv
 const useERC20Balance = (props) => {
   const { account } = useMoralisWeb3Api();
   const { isInitialized } = useMoralis();
-  const { walletAddress, chainId } = useMoralisDapp();
-
+  let { walletAddress, chainId } = useMoralisDapp();
+  console.log("[ND][useERC20Balance] props:", props);
+  // if there's an external walletAddressed passed by props, use that
+  walletAddress = props.address ?? walletAddress;
+  chainId = props.chainId ?? "0x01"
   const [assets, setAssets] = useState();
+
+  console.log("[ND][useERC20Balance] address: %c,  props: %c", walletAddress, props);
+
+
+
+  if (props.symbol !== undefined) {
+    //  pass param to `fetchERC20Balance(symbol)`
+
+  }
 
   useEffect(() => {
     if (isInitialized) {
@@ -18,12 +30,21 @@ const useERC20Balance = (props) => {
   }, [isInitialized, chainId, walletAddress]);
 
   const fetchERC20Balance = async () => {
+    console.log("[useERC20balance][result] fetching");
+      // let thecall = account;
+    if (props.symbol !== undefined) {
+      //  pass param to `fetchERC20Balance(symbol)`
+      
+    }
     return await account
       .getTokenBalances({
         address: walletAddress,
-        chain: props?.chain || chainId,
+        chain: chainId,
       })
-      .then((result) => result)
+      .then((result) => {
+        console.log("[useERC20balance][result] result:", result);
+        return result;
+      })
       .catch((e) => alert(e.message));
   };
 

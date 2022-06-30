@@ -8,10 +8,11 @@ function MoralisDappProvider({children}) {
   const [chainId, setChainId] = useState();
   useEffect(() => {
     Moralis.onChainChanged(function (chain) {
+      console.log("[ND][onChainChanged] chainId", chain);
       setChainId(chain);
     });
 
-    Moralis.onAccountChanged(function (address) {
+    Moralis.onAccountsChanged(function (address) {
       setWalletAddress(address[0]);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -28,18 +29,18 @@ function MoralisDappProvider({children}) {
 
   return (
     // USE THIS TO SKIP LOGIN THROUGH WALLET (FOR DEVELOPMENT PURPOSES)
-    // <MoralisDappContext.Provider
-    //   value={{
-    //     walletAddress: '0x29684Ca7D10F82b9dC7E5a447e33e7A99e10813F',
-    //     chainId: '0x1',
-    //   }}>
-    //   {children}
-    // </MoralisDappContext.Provider>
-
-    //USE THIS DURING PRODUCTION
-    <MoralisDappContext.Provider value={{walletAddress, chainId: '0x1'}}>
+    <MoralisDappContext.Provider
+      value={{
+        walletAddress: '0x29684Ca7D10F82b9dC7E5a447e33e7A99e10813F',
+        chainId: '0x1',
+      }}>
       {children}
     </MoralisDappContext.Provider>
+
+    //USE THIS DURING PRODUCTION
+    // <MoralisDappContext.Provider value={{walletAddress, chainId: '0x1'}}>
+    //   {children}
+    // </MoralisDappContext.Provider>
   );
 }
 

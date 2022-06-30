@@ -6,7 +6,8 @@ import {
   getFocusedRouteNameFromRoute,
 } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { LogBox } from "react-native";
+import { LogBox, View, StyleSheet } from "react-native";
+import { Button } from "@ui-kitten/components";
 
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import CryptoAuth from "./Components/CryptoAuth";
@@ -16,6 +17,8 @@ import Transfer from "./Components/Transfer/Transfer";
 import Profile from "./Components/Profile/Profile";
 import Header from "./Components/Header";
 import NFTAssets from "./Components/NFT/NFTAssets";
+import QuickStart from "./Components/QuickStart";
+
 
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
@@ -113,7 +116,32 @@ function getHeaderTitle(route) {
   }
 }
 
+function Auth(): JSX.Element {
+// mode="contained"
+// onPress={TransferTheCoins}>
+  const connector = useWalletConnect();
+  const {
+    authenticate,
+    authError,
+    isAuthenticating,
+    isAuthenticated,
+    logout,
+    Moralis,
+  } = useMoralis();
+
+
+  return (
+    <View style={[styles.flex1, styles.justifyCenter]}>
+      <Button
+        style={styles.button}>
+          Get balance
+      </Button>
+    </View>
+  )
+}
+
 function App(): JSX.Element {
+
   const connector = useWalletConnect();
   const {
     authenticate,
@@ -126,17 +154,18 @@ function App(): JSX.Element {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Auth">
+
+      <Stack.Navigator initialRouteName="Main">
         {/* Auth Navigator: Include Login and Signup */}
         <Stack.Screen
-          name="Auth"
-          component={CryptoAuth}
+          name="QuickStart"
+          component={QuickStart}
           options={{ headerShown: false }}
         />
         {/* Navigation Drawer as a landing page */}
         <Stack.Screen
-          name="DrawerNavigationRoutes"
-          component={Home}
+          name="Transfer"
+          component={Transfer}
           // Hiding header for Navigation Drawer
           options={{ headerTitle: (props) => <Header /> }}
           // options={({ route }) => ({
@@ -147,5 +176,20 @@ function App(): JSX.Element {
     </NavigationContainer>
   );
 }
-
 export default App;
+
+const styles = StyleSheet.create({
+  flex1: {
+    flex: 1,
+  },
+  flex4: {
+    flex: 4,
+  },
+  justifyCenter: {
+    justifyContent: "space-around",
+  },
+  button: {
+    backgroundColor: "green",
+    elevation: 5,
+  }
+});
